@@ -1,0 +1,36 @@
+ekf_filter_node:
+  ros__parameters:
+    frequency: 100.0
+    sensor_timeout: 0.1
+    two_d_mode: true
+
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom
+    publish_tf: true
+
+    odom0: /odom
+    odom0_config: [
+      true, true, false,     # X, Y (lấy từ encoder), không cần Z
+      false, false, false,   # roll, pitch, yaw (KHÔNG lấy orientation từ odom)
+      true, true, false,     # vx, vy
+      false, false, false,   # vroll, vpitch, vyaw (KHÔNG lấy tốc độ quay từ odom)
+      false, false, false    # ax, ay, az
+    ]
+    odom0_differential: true
+    odom0_relative: false
+
+    imu0: /imu/filtered
+    imu0_config: [
+      false, false, false,   # Không lấy X Y Z (IMU không đo được vị trí)
+      true, true, true,      # Dùng roll, pitch, yaw từ Madgwick
+      false, false, false,   # Không lấy vx vy vz
+      false, false, true,    # Chỉ lấy vyaw (tốc độ quay quanh Z)
+      false, false, false    # Không lấy acceleration
+    ]
+    imu0_differential: false
+    imu0_relative: true
+    imu0_remove_gravitational_acceleration: false  # <- Chỉnh lại FALSE cho chuẩn Madgwick output đã remove rồi
+
+    predict_to_current_time: false
